@@ -1,8 +1,8 @@
 import streamlit as st
 
-st.title("HELLO Iron Phantom")
+st.title("HELLO Iron Phantom, this is Our app (DWIP)")
 st.header("🏇 Horse Racing Value Bet Checker")
-st.image("https://www.google.com/url?sa=i&url=https%3A%2F%2Fgifer.com%2Fen%2Fgifs%2Fdonkeys&psig=AOvVaw2URUFqEfL8OgaqIe1cq4z4&ust=1744750605371000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqGAoTCOCo1Mq02IwDFQAAAAAdAAAAABCoAQ", caption="$$$$$$$$$$$$$$")
+st.image("https://i.gifer.com/origin/91/9196e905121e63d49072c720225ac3aa_w200.gif", caption="$$$$$$$$$$$$$$")
 
 # Horse and jockey options
 horses = ["Thunder Bolt", "Speedy Star", "Night Runner", "Golden Hoof"]
