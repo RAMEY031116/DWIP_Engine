@@ -1,2 +1,3 @@
 import streamlit as st
-st.write("hello world")
+st.title("HELLO Iron Phantom")
+st.header ("This is a simple form to calculate")
