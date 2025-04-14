@@ -1,4 +1,4 @@
- import streamlit as st
+import streamlit as st
 
 st.title("HELLO Iron Phantom")
 st.header("🏇 Horse Racing Value Bet Checker")
