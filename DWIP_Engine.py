@@ -14,7 +14,14 @@ def decimal_to_fractional(decimal_odds):
 
 # Load data and preprocess
 df = load_data()
-df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
+
+# Check if 'Bookmaker Odds' column exists
+if "Bookmaker Odds" in df.columns:
+    # Convert decimal odds to fractional odds
+    df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
+else:
+    st.error("Column 'Bookmaker Odds' not found in the data.")
+    st.stop()  # Stop the app if the column is missing
 
 # Calculate probability based on performance and odds
 def calculate_win_probability(row):
