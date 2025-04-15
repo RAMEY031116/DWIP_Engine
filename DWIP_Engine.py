@@ -43,12 +43,21 @@ st.write("Filter horses based on race data, odds, jockey history, and more!")
 selected_location = st.selectbox("Select Race Location", df["Race Location"].unique())
 selected_horse = st.selectbox("Select Horse Name", df["Horse Name"].unique())
 selected_jockey = st.selectbox("Select Jockey Name", df["Jockey Name"].unique())
-min_odds = st.slider("Minimum Odds (Decimal)", min_value=1.0, max_value=10.0, value=1.0)
 race_distance = st.slider("Filter by Race Distance", min_value=int(df["Race Distance"].min()), 
                           max_value=int(df["Race Distance"].max()), value=int(df["Race Distance"].min()))
 
-# Apply filters
+# Apply filters dynamically
 filtered_df = df[
     (df["Race Location"] == selected_location) &
     (df["Horse Name"] == selected_horse) &
-    
+    (df["Jockey Name"] == selected_jockey) &
+    (df["Race Distance"] >= race_distance)
+]
+
+# Display results
+st.write("Filtered Results:")
+st.dataframe(filtered_df[["Race Location", "Horse Name", "Jockey Name", "Fractional Odds", "Win Probability"]])
+
+# Summary of bets
+recommended_bets = filtered_df[filtered_df["Win Probability"] == "Recommended Bet"]
+st.write(f"Total Recommended Bets: {len(recommended_bets)}")
