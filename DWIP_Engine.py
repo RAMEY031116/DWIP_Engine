@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 
-st.set_page_config( page_title="DWIP",  page_icon="https://static.vecteezy.com/system/resources/previews/036/268/611/non_2x/horse-icon-illustration-for-web-app-infographic-etc-vector.jpg", layout="wide")
+st.set_page_config( page_title="DWIP",  page_icon="app_icon.jpg", layout="wide")
 
 # Load the data from CSV file
 @st.cache_data
