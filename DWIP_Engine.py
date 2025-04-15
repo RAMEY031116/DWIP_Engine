@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 
 
-st.set_page_config(
-    page_title=("DWIP",  page_icon="🐎", layout="wide")
+st.set_page_config( page_title="DWIP",  page_icon="🐎", layout="wide")
 
 # Load the data from CSV file
 @st.cache_data
