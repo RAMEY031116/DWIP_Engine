@@ -5,7 +5,7 @@ import pandas as pd
 @st.cache_data
 def load_data():
     # Make sure this file is in the same folder or provide the full path
-    return pd.read_csv("sample_horse_races_200_no_odds.csv")
+    return pd.read_csv("horse_racing_data.csv")
 
 # Load the data into a DataFrame
 df = load_data()
