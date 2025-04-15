@@ -1,11 +1,21 @@
-Race ID,Race Location,Race Date,Horse Name,Horse Past Wins,Jockey Name,Jockey Past Wins,Bookmaker Odds,Weather Conditions,Race Distance,Horse Weight,Is Favorite?,Final Result
-001,Ascot,2025-04-15,Lightning Bolt,10,John Doe,25,4.5,Sunny,1600,500kg,Yes,Won
-002,Newmarket,2025-04-16,Storm Rider,5,Jane Smith,18,6.0,Rain,2000,480kg,No,Lost
-003,Cheltenham,2025-04-17,Midnight Racer,8,Jack Brown,20,5.5,Cloudy,1800,490kg,Yes,Won
-004,Epsom,2025-04-18,Thunder Hooves,12,Emily White,30,4.2,Foggy,1500,510kg,Yes,Won
-005,Aintree,2025-04-19,Golden Blaze,7,Liam Green,22,6.8,Sunny,2200,495kg,No,Lost
-006,Ascot,2025-04-20,Shadow Stride,9,Olivia Black,27,5.0,Rain,1750,505kg,Yes,Won
-007,Newmarket,2025-04-21,Blazing Star,6,Ethan Cooper,19,6.5,Cloudy,1900,485kg,No,Lost
-008,Cheltenham,2025-04-22,Fast Fury,11,Nora Grey,28,4.8,Sunny,1650,500kg,Yes,Won
-009,Epsom,2025-04-23,Dark Whisper,4,Mason Reed,16,7.2,Rain,2100,475kg,No,Lost
-010,Aintree,2025-04-24,Silver Storm,13,Chloe Knight,32,4.0,Foggy,1800,510kg,Yes,Won
+Race ID,Race Location,Race Date,Horse Name,Horse Past Wins,Jockey Name,Jockey Past Wins,Bookmaker Odds,Fractional Odds,Weather Conditions,Race Distance,Horse Weight,Is Favorite?,Final Result
+00101,Ascot,2025-04-01,Lightning Bolt,10,John Doe,25,4.5,9/2,Sunny,1600,500kg,Yes,Won
+00102,Ascot,2025-04-02,Storm Rider,5,Jane Smith,18,6.0,5/1,Rain,2000,480kg,No,Lost
+00201,Newmarket,2025-04-03,Midnight Racer,8,Jack Brown,20,5.5,11/2,Cloudy,1800,490kg,Yes,Won
+00202,Newmarket,2025-04-04,Thunder Hooves,12,Emily White,30,4.2,3/1,Foggy,1500,510kg,Yes,Won
+00301,Cheltenham,2025-04-05,Golden Blaze,7,Liam Green,22,6.8,13/2,Sunny,2200,495kg,No,Lost
+00302,Cheltenham,2025-04-06,Shadow Stride,9,Olivia Black,27,5.0,4/1,Rain,1750,505kg,Yes,Won
+00401,Epsom,2025-04-07,Blazing Star,6,Ethan Cooper,19,6.5,5/1,Cloudy,1900,485kg,No,Lost
+00402,Epsom,2025-04-08,Fast Fury,11,Nora Grey,28,4.8,7/2,Sunny,1650,500kg,Yes,Won
+00501,Aintree,2025-04-09,Dark Whisper,4,Mason Reed,16,7.2,6/1,Rain,2100,475kg,No,Lost
+00502,Aintree,2025-04-10,Silver Storm,13,Chloe Knight,32,4.0,3/1,Foggy,1800,510kg,Yes,Won
+00601,Ascot,2025-04-11,Shadow Runner,15,Daniel Carter,35,3.5,5/2,Sunny,1700,500kg,Yes,Won
+00602,Ascot,2025-04-12,Crimson Flash,6,Amanda Ford,21,7.0,6/1,Rain,2200,495kg,No,Lost
+00701,Newmarket,2025-04-13,Storm Surge,8,Henry Johnson,25,5.2,4/1,Cloudy,1850,490kg,Yes,Won
+00702,Newmarket,2025-04-14,Rapid Thunder,5,Laura Harris,17,8.5,15/2,Foggy,1500,480kg,No,Lost
+00801,Cheltenham,2025-04-15,Glacial Sprint,10,Sam Taylor,29,4.6,9/2,Sunny,1600,510kg,Yes,Won
+00802,Cheltenham,2025-04-16,Iron Hoof,3,Sophie Adams,14,9.2,8/1,Rain,1900,475kg,No,Lost
+00901,Epsom,2025-04-17,Speed Demon,12,Mark Evans,33,3.8,10/3,Cloudy,2000,500kg,Yes,Won
+00902,Epsom,2025-04-18,Night Runner,7,Rachel Moore,22,6.5,5/1,Foggy,1750,485kg,No,Lost
+01001,Aintree,2025-04-19,Golden Comet,9,Tom White,28,4.9,7/2,Sunny,1650,490kg,Yes,Won
+01002,Aintree,2025-04-20,Frostbite,4,Jessica Reed,15,8.0,7/1,Rain,2200,475kg,No,Lost
