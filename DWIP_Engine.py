@@ -16,30 +16,31 @@ def decimal_to_fractional(decimal_odds):
 
 df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
 
-# Define betting criteria
-def betting_decision(row):
-    win_rate = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)  # Assumed 10 previous races
+# Calculate probability
+def calculate_win_probability(row):
+    horse_win_rate = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)  # Assumed 10 previous races
     jockey_success = row["Jockey Past Wins"] / (row["Jockey Past Wins"] + 20)  # Assumed 20 previous races
     odds_prob = 1 / row["Bookmaker Odds"]  # Convert odds to probability
 
-    # Calculate win probability score
-    probability_score = (win_rate * 0.4) + (jockey_success * 0.3) + (odds_prob * 0.3)
-
-    # Betting Criteria: High probability score & reasonable odds (<= 5)
-    if probability_score > 0.5 and row["Bookmaker Odds"] <= 5:
-        return "Recommended Bet"
+    # Weighted probability score
+    probability_score = (horse_win_rate * 0.4) + (jockey_success * 0.3) + (odds_prob * 0.3)
+    
+    # Betting recommendation
+    if probability_score > 0.5:
+        return "High Probability - Recommended Bet ✅"
+    elif probability_score > 0.3:
+        return "Moderate Probability - Proceed with Caution ⚠️"
     else:
-        return "Not Recommended"
+        return "Low Probability - Not Recommended ❌"
 
-# Apply betting logic
-df["Win Probability"] = df.apply(betting_decision, axis=1)
+df["Betting Advice"] = df.apply(calculate_win_probability, axis=1)
 
 # Streamlit Dashboard
-st.title("Horse Racing Betting Analysis")
-st.header("Horse Racing Insights")
-st.write("Filter horses based on race data, odds, jockey history, and more!")
+st.title("Horse Racing Betting Probability Analysis")
+st.header("Assess Betting Worthiness with Data!")
+st.write("Filter horses based on race history, odds, and jockey performance.")
 
-# **New Filters Added**
+# Filters
 selected_location = st.selectbox("Select Race Location", df["Race Location"].unique())
 selected_horse = st.selectbox("Select Horse Name", df["Horse Name"].unique())
 selected_jockey = st.selectbox("Select Jockey Name", df["Jockey Name"].unique())
@@ -56,8 +57,8 @@ filtered_df = df[
 
 # Display results
 st.write("Filtered Results:")
-st.dataframe(filtered_df[["Race Location", "Horse Name", "Jockey Name", "Fractional Odds", "Win Probability"]])
+st.dataframe(filtered_df[["Race Location", "Horse Name", "Jockey Name", "Fractional Odds", "Betting Advice"]])
 
 # Summary of bets
-recommended_bets = filtered_df[filtered_df["Win Probability"] == "Recommended Bet"]
-st.write(f"Total Recommended Bets: {len(recommended_bets)}")
+recommended_bets = filtered_df[filtered_df["Betting Advice"].str.contains("Recommended Bet")]
+st.write(f"Total High Probability Bets: {len(recommended_bets)} ✅")
