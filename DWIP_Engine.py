@@ -30,13 +30,14 @@ if numerator and denominator and your_estimate is not None:
     ev = your_estimate - implied_prob
 
     # Display results
-    st.markdown(f"Decimal Odds: **{decimal_odds:.2f}**")
-    st.markdown(f"Implied Probability from Odds: **{implied_prob:.2f}%**")
-    st.markdown(f"Your Estimated Chance: **{your_estimate:.2f}%**")
+    st.markdown(f"Decimal Odds: {decimal_odds:.2f}")
+    st.markdown(f"Implied Probability from Odds: {implied_prob:.2f}%")
+    st.markdown(f"Your Estimated Chance: {your_estimate:.2f}%")
 
     # Check if it's a value bet
     if ev > 0:
         st.success("✅ This looks like a VALUE BET based on your estimate!")
+        st.ballon()
     else:
         st.warning("⚠️ Not a value bet. The odds may not be in your favor.")
 
