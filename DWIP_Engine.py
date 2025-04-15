@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("HELLO Iron Phantom, this is Our app (DWIP)-   Data for Winning Insights and Probability  ")
+st.title("DWIP -  Data for Winning Insights and Probability  ")
 st.header("🏇 Horse Racing Value Bet Checker")
 st.image("https://i.gifer.com/origin/91/9196e905121e63d49072c720225ac3aa_w200.gif", caption="$$$$$$$$$$$$$$")
 
