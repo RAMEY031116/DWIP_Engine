@@ -27,17 +27,17 @@ def calculate_win_probability(row):
     
     # Betting recommendation
     if probability_score > 0.5:
-        return "High Probability - Recommended Bet ✅"
+        return "High Probability ✅"
     elif probability_score > 0.3:
-        return "Moderate Probability - Proceed with Caution ⚠️"
+        return "Moderate Probability ⚠️"
     else:
-        return "Low Probability - Not Recommended ❌"
+        return "Low Probability ❌"
 
 df["Betting Advice"] = df.apply(calculate_win_probability, axis=1)
 
 # Streamlit Dashboard
 st.title("Horse Racing Betting Probability Analysis")
-st.header("Assess Betting Worthiness with Data!")
+st.header("calculator")
 st.write("Filter horses based on race history, odds, and jockey performance.")
 
 # Filters
