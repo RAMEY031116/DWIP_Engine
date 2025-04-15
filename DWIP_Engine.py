@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+
+st.set_page_config(
+    page_title=("DWIP",  page_icon="🐎", layout="wide")
+
 # Load the data from CSV file
 @st.cache_data
 def load_data():
@@ -33,7 +37,7 @@ df["Betting Advice"] = df.apply(calculate_betting_advice, axis=1)
 # ---- Streamlit User Interface ----
 
 # App title
-st.title("🐎 Horse Racing Betting Helper (No Odds Needed)")
+st.title("🐎 DWIP - Data for Winning Insights and Probability")
 
 # Intro text
 st.write("This app gives you simple betting advice based on horse and jockey past performance.")
