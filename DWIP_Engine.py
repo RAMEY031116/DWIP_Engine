@@ -37,7 +37,7 @@ if numerator and denominator and your_estimate is not None:
     # Check if it's a value bet
     if ev > 0:
         st.success("✅ This looks like a VALUE BET based on your estimate!")
-        st.ballon()
+        st.ballons()
     else:
         st.warning("⚠️ Not a value bet. The odds may not be in your favor.")
 
