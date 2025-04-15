@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 st.title("DWIP -  Data for Winning Insights and Probability  ")
 st.header("🏇 Horse Racing Value Bet Checker")
