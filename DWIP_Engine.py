@@ -15,9 +15,11 @@ def decimal_to_fractional(decimal_odds):
 # Load data and preprocess
 df = load_data()
 
+# Print out the column names for inspection
+st.write("### Column Names in the Data:", df.columns)
+
 # Check if 'Bookmaker Odds' column exists
 if "Bookmaker Odds" in df.columns:
-    # Convert decimal odds to fractional odds
     df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
 else:
     st.error("Column 'Bookmaker Odds' not found in the data.")
