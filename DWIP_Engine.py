@@ -27,6 +27,7 @@ df["Betting Advice"] = df.apply(betting_decision, axis=1)
 
 # Streamlit Dashboard
 st.title("Horse Racing Betting Analysis")
+st.header("Hello world")
 st.write("Filter horses and assess betting worthiness.")
 
 # Display filtered data
