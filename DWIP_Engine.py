@@ -1,34 +1,25 @@
 import streamlit as st
 import pandas as pd
-from fractions import Fraction
 
 # Load the data from CSV file
 @st.cache_data
 def load_data():
-    # Replace with your actual file name
-    return pd.read_csv("horse_racing_data.csv")
+    # Make sure this file is in the same folder or provide the full path
+    return pd.read_csv("sample_horse_races_200_no_odds.csv")
 
+# Load the data into a DataFrame
 df = load_data()
 
-# Function to convert decimal odds to fractional odds (e.g., 4.5 → 7/2)
-def decimal_to_fractional(decimal_odds):
-    fraction = Fraction(decimal_odds - 1).limit_denominator(100)
-    return f"{fraction.numerator}/{fraction.denominator}"
-
-# Apply the conversion to the column
-df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
-
-# Function to calculate win probability and betting advice
+# Function to calculate a simple betting probability score
 def calculate_betting_advice(row):
-    # Basic estimated win rates
-    horse_rate = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)
-    jockey_rate = row["Jockey Past Wins"] / (row["Jockey Past Wins"] + 20)
-    odds_probability = 1 / row["Bookmaker Odds"]
+    # Estimate how good the horse and jockey are (0 to 1 scale)
+    horse_score = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)
+    jockey_score = row["Jockey Past Wins"] / (row["Jockey Past Wins"] + 20)
 
-    # Combine them with weights
-    score = (horse_rate * 0.4) + (jockey_rate * 0.3) + (odds_probability * 0.3)
+    # Combine them into a simple score
+    score = (horse_score * 0.6) + (jockey_score * 0.4)
 
-    # Return advice based on score
+    # Return betting advice based on the score
     if score > 0.5:
         return "High Probability ✅"
     elif score > 0.3:
@@ -36,29 +27,28 @@ def calculate_betting_advice(row):
     else:
         return "Low Probability ❌"
 
-# Create new column with advice
+# Apply the betting advice function to each row
 df["Betting Advice"] = df.apply(calculate_betting_advice, axis=1)
 
 # ---- Streamlit User Interface ----
 
 # App title
-st.title("🐎 Horse Racing Betting Guide")
+st.title("🐎 Horse Racing Betting Helper (No Odds Needed)")
 
-# Header text
-st.write("This app helps you evaluate horses based on their past wins, jockey stats, and odds.")
+# Intro text
+st.write("This app gives you simple betting advice based on horse and jockey past performance.")
 
-# User selections
+# Filters for location, horse, jockey, and race distance
 location = st.selectbox("Choose a Race Location:", df["Race Location"].unique())
 horse = st.selectbox("Choose a Horse:", df["Horse Name"].unique())
 jockey = st.selectbox("Choose a Jockey:", df["Jockey Name"].unique())
 
-# Race distance filter
-distance = st.slider("Minimum Race Distance (meters):", 
-                     int(df["Race Distance"].min()), 
-                     int(df["Race Distance"].max()), 
-                     int(df["Race Distance"].min()))
+distance = st.slider("Minimum Race Distance (meters):",
+                     min_value=int(df["Race Distance"].min()),
+                     max_value=int(df["Race Distance"].max()),
+                     value=int(df["Race Distance"].min()))
 
-# Filter data based on user input
+# Filter the data based on selections
 filtered_data = df[
     (df["Race Location"] == location) &
     (df["Horse Name"] == horse) &
@@ -66,10 +56,14 @@ filtered_data = df[
     (df["Race Distance"] >= distance)
 ]
 
-# Show filtered table
-st.subheader("🎯 Filtered Race Info")
-st.dataframe(filtered_data[["Race Location", "Horse Name", "Jockey Name", "Fractional Odds", "Betting Advice"]])
+# Display the results
+st.subheader("🎯 Filtered Race Results")
+st.dataframe(filtered_data[[
+    "Race Location", "Race Date", "Horse Name", "Jockey Name", 
+    "Horse Past Wins", "Jockey Past Wins", "Race Distance", 
+    "Is Favorite?", "Final Result", "Betting Advice"
+]])
 
-# Optional: Summary of strong bets
-high_prob_bets = filtered_data[filtered_data["Betting Advice"] == "High Probability ✅"]
-st.success(f"High Probability Bets Found: {len(high_prob_bets)}")
+# Count high probability picks
+high_prob = filtered_data[filtered_data["Betting Advice"] == "High Probability ✅"]
+st.success(f"High Probability Picks Found: {len(high_prob)} ✅")
