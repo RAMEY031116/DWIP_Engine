@@ -1,64 +1,78 @@
 import streamlit as st
 import pandas as pd
-from fractions import Fraction
 
-# Load CSV file
+
+st.set_page_config( page_title="DWIP",  page_icon="app_icon.jpg", layout="wide")
+
+# Load the data from CSV file
 @st.cache_data
 def load_data():
+<<<<<<< HEAD
     return pd.read_csv("horse_races_today.csv")
+=======
+    # Make sure this file is in the same folder or provide the full path
+    return pd.read_csv("horse_racing_data.csv")
+>>>>>>> 4c0c51cb82c24647fd1bfd708d0f00e135ccb1c9
 
+# Load the data into a DataFrame
 df = load_data()
 
-# Convert decimal odds to fractional odds
-def decimal_to_fractional(decimal_odds):
-    fraction = Fraction(decimal_odds - 1).limit_denominator(100)
-    return f"{fraction.numerator}/{fraction.denominator}"
+# Function to calculate a simple betting probability score
+def calculate_betting_advice(row):
+    # Estimate how good the horse and jockey are (0 to 1 scale)
+    horse_score = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)
+    jockey_score = row["Jockey Past Wins"] / (row["Jockey Past Wins"] + 20)
 
-df["Fractional Odds"] = df["Bookmaker Odds"].apply(decimal_to_fractional)
+    # Combine them into a simple score
+    score = (horse_score * 0.6) + (jockey_score * 0.4)
 
-# Calculate probability
-def calculate_win_probability(row):
-    horse_win_rate = row["Horse Past Wins"] / (row["Horse Past Wins"] + 10)  # Assumed 10 previous races
-    jockey_success = row["Jockey Past Wins"] / (row["Jockey Past Wins"] + 20)  # Assumed 20 previous races
-    odds_prob = 1 / row["Bookmaker Odds"]  # Convert odds to probability
-
-    # Weighted probability score
-    probability_score = (horse_win_rate * 0.4) + (jockey_success * 0.3) + (odds_prob * 0.3)
-    
-    # Betting recommendation
-    if probability_score > 0.5:
+    # Return betting advice based on the score
+    if score > 0.5:
         return "High Probability ✅"
-    elif probability_score > 0.3:
+        st.ballons()
+    elif score > 0.3:
         return "Moderate Probability ⚠️"
+        st.ballons()
     else:
         return "Low Probability ❌"
 
-df["Betting Advice"] = df.apply(calculate_win_probability, axis=1)
+# Apply the betting advice function to each row
+df["Betting Advice"] = df.apply(calculate_betting_advice, axis=1)
 
-# Streamlit Dashboard
-st.title("Horse Racing Betting Probability Analysis")
-st.header("calculator")
-st.write("Filter horses based on race history, odds, and jockey performance.")
+# ---- Streamlit User Interface ----
 
-# Filters
-selected_location = st.selectbox("Select Race Location", df["Race Location"].unique())
-selected_horse = st.selectbox("Select Horse Name", df["Horse Name"].unique())
-selected_jockey = st.selectbox("Select Jockey Name", df["Jockey Name"].unique())
-race_distance = st.slider("Filter by Race Distance", min_value=int(df["Race Distance"].min()), 
-                          max_value=int(df["Race Distance"].max()), value=int(df["Race Distance"].min()))
+# App title
+st.title("🐎 DWIP - Data for Winning Insights and Probability")
 
-# Apply filters dynamically
-filtered_df = df[
-    (df["Race Location"] == selected_location) &
-    (df["Horse Name"] == selected_horse) &
-    (df["Jockey Name"] == selected_jockey) &
-    (df["Race Distance"] >= race_distance)
+# Intro text
+st.write("This app gives you simple betting advice based on horse and jockey past performance.")
+
+# Filters for location, horse, jockey, and race distance
+location = st.selectbox("Choose a Race Location:", df["Race Location"].unique())
+horse = st.selectbox("Choose a Horse:", df["Horse Name"].unique())
+jockey = st.selectbox("Choose a Jockey:", df["Jockey Name"].unique())
+
+distance = st.slider("Minimum Race Distance (meters):",
+                     min_value=int(df["Race Distance"].min()),
+                     max_value=int(df["Race Distance"].max()),
+                     value=int(df["Race Distance"].min()))
+
+# Filter the data based on selections
+filtered_data = df[
+    (df["Race Location"] == location) &
+    (df["Horse Name"] == horse) &
+    (df["Jockey Name"] == jockey) &
+    (df["Race Distance"] >= distance)
 ]
 
-# Display results
-st.write("Filtered Results:")
-st.dataframe(filtered_df[["Race Location", "Horse Name", "Jockey Name", "Fractional Odds", "Betting Advice"]])
+# Display the results
+st.subheader("🎯 Filtered Race Results")
+st.dataframe(filtered_data[[
+    "Race Location", "Race Date", "Horse Name", "Jockey Name", 
+    "Horse Past Wins", "Jockey Past Wins", "Race Distance", 
+    "Is Favorite?", "Final Result", "Betting Advice"
+]])
 
-# Summary of bets
-recommended_bets = filtered_df[filtered_df["Betting Advice"].str.contains("Recommended Bet")]
-st.write(f"Total High Probability Bets: {len(recommended_bets)} ✅")
+# Count high probability picks
+high_prob = filtered_data[filtered_data["Betting Advice"] == "High Probability ✅"]
+st.success(f"High Probability Picks Found: {len(high_prob)} ✅")
