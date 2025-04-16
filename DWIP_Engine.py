@@ -5,7 +5,7 @@ from fractions import Fraction
 # Load CSV file
 @st.cache_data
 def load_data():
-    return pd.read_csv("horse_racing_data.csv")
+    return pd.read_csv("horse_races_today.csv")
 
 df = load_data()
 
