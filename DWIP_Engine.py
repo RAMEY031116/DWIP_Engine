@@ -72,4 +72,3 @@ st.dataframe(filtered_data[[
 # Count high probability picks
 high_prob = filtered_data[filtered_data["Betting Advice"] == "High Probability ✅"]
 st.success(f"High Probability Picks Found: {len(high_prob)} ✅")
-st.ballons()
