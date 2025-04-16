@@ -25,8 +25,10 @@ def calculate_betting_advice(row):
     # Return betting advice based on the score
     if score > 0.5:
         return "High Probability ✅"
+        st.ballons()
     elif score > 0.3:
         return "Moderate Probability ⚠️"
+        st.ballons()
     else:
         return "Low Probability ❌"
 
