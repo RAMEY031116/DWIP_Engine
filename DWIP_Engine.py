@@ -6,16 +6,25 @@ st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 # Load the data from CSV file
 @st.cache_data
 def load_data():
-    # Load the CSV and rename columns to match the headers you want
-    df = pd.read_csv("horse_races_today.csv")
+    # Load the CSV
+    df = pd.read_csv("horse_races_today.csv")  # Change this if the filename is different
     
-    # Rename columns to "Race Time", "Meeting", and "Horse Name"
-    df.columns = ['Race Time', 'Meeting', 'Horse Name']
+    # Verify the columns are as expected
+    if len(df.columns) == 4:
+        # Set the column names as desired
+        df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
+    else:
+        st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
+        return pd.DataFrame()  # Return an empty DataFrame if columns mismatch
     
     return df
 
 # Load the data into a DataFrame
 df = load_data()
+
+# If the DataFrame is empty due to mismatch, stop further execution
+if df.empty:
+    st.stop()
 
 # ---- Streamlit User Interface ----
 
@@ -40,6 +49,5 @@ filtered_data = df[
 # Display the results
 st.subheader("🎯 Filtered Race Results")
 st.dataframe(filtered_data[[
-    "Race Time", "Meeting", "Horse Name"
+    "Race Date", "Race Time", "Meeting", "Horse Name"
 ]])
-
