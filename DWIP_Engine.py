@@ -8,7 +8,9 @@ st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 def load_data():
     # Load the CSV
     df = pd.read_csv("horse_races_today.csv")  # Change this if the filename is different
-    
+    if df:
+        df = pd.read_csv(df)
+        st.line_chart(df)
     # Verify the columns are as expected
     if len(df.columns) == 4:
         # Set the column names as desired
