@@ -70,7 +70,7 @@ if st.button("calculate"):
     decimal_odds = convert_fraction_to_decimal(fractional_odds)
 
     if decimal_odds is None:
-        st.error("Invalid fractional odds formal. Please enter like 5/1 or 7/2")
+        st.error("Invalid fractional odds format. Please enter like 5/1 or 7/2")
     else:
         total_return = round(stake * decimal_odds, 2)
         profit = round(total_return - stake, 2)
