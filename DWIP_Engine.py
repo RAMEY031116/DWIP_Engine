@@ -17,6 +17,7 @@ def load_data():
         st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
         return pd.DataFrame()  # Return an empty DataFrame if columns mismatch
     
+
     return df
 
 # Load the data into a DataFrame
@@ -51,3 +52,29 @@ st.subheader("🎯 Filtered Race Results")
 st.dataframe(filtered_data[[
     "Race Date", "Race Time", "Meeting", "Horse Name"
 ]])
+
+
+st.header("Bet Calculator")
+
+stake = st.number_input("Enter your stake (£)", min_value=0.0,)
+fractional_odds = st.number_input("Enter the odds in fractional")
+
+def convert_fraction_to_decimal(fraction_str):
+    try:
+        numerator, denominator = fraction_str.split("/")
+        return round(1 +(int(numerator)/ int(denominator)), 2)
+    except:
+        return None
+    
+if st.button("calculate"):
+    decimal_odds = convert_fraction_to_decimal(fractional_odds)
+
+    if decimal_odds is None:
+        st.error("Invalid fractional odds formal. Please enter like 5/1 or 7/2")
+    else:
+        total_return = round(stake * decimal_odds, 2)
+        profit = round(total_return - stake, 2)
+
+        st.subheader(f'decimal odds: {decimal_odds}')
+        st.subheader(f"total return : {total_return}")
+        st.subheader(f"profit is : {profit}")
