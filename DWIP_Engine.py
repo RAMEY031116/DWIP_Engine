@@ -57,7 +57,7 @@ st.dataframe(filtered_data[[
 st.header("Bet Calculator")
 
 stake = st.number_input("Enter your stake (£)", min_value=0.0,)
-fractional_odds = st.text_input("Enter the odds in fractional 5/1 or 7/2", value="5/1")
+fractional_odds = st.text_input("Enter the odds in fractional 5/1 or 7/2", value="0/0")
 
 def convert_fraction_to_decimal(fraction_str):
     try:
