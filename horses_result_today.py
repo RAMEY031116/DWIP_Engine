@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 # 1. Set the date and URL
 date = "2025-04-20"
@@ -15,36 +16,42 @@ if response.status_code == 200:
     soup = BeautifulSoup(response.text, "html.parser")
 
     # 4. Find all race sections
-    all_races = soup.find_all('div', class_="rp-timeView__listItem")
+    listItem_races = soup.find_all("div", class_="rp-timeView_listItem")
 
     # 5. Prepare list to store selected race info
     selected_races = []
 
-    # 6. Loop through each race and filter
-    for race in all_races:
-        text = race.get_text(" ", strip=True)
+    # 6. Loop through each race and extract data
+    for race in listItem_races:
+        meeting = race.find("div", class_="timeView__raceName")
+        race_class = race.find("span", class_="rp-timeView__raceDescription__distance")
+        horse = race.find("span", class_="price")
+        position = race.find("li", class_="rp-raceResult__horse")
 
-        # Include only Class 1, 2, or 3, and exclude (Class 1) style
-        if ("Class 1" in text and "(Class 1)" not in text) or \
-           ("Class 2" in text and "(Class 2)" not in text) or \
-           ("Class 3" in text and "(Class 3)" not in text):
-            selected_races.append(text)
+        if meeting and race_class and horse and position:
+            meeting_name = meeting.text.strip()
+            horse_class_name = race_class.text.strip()
+            horse_name = horse.text.strip()
+            pos = position.text.strip()
 
-    # 7. Save to CSV file manually
-    if selected_races:
-        file_name = f"class_1_to_3_races_{date}.csv"
-        with open(file_name, "w", encoding="utf-8") as f:
-            f.write("Race Info\n")  # CSV header
-            for race_info in selected_races:
-                f.write(f"\"{race_info}\"\n")  # Write each race in quotes
+            # ✅ Filtering inside the loop
+            if (("Class 1" in horse_class_name and "(Class 1)" not in horse_class_name) or 
+                ("Class 2" in horse_class_name and "(Class 2)" not in horse_class_name) or 
+                ("Class 3" in horse_class_name and "(Class 3)" not in horse_class_name)):
+                
+                selected_races.append({
+                    "Meeting Name": meeting_name,
+                    "Class name": horse_class_name,
+                    "Horse name": horse_name,
+                    "Position": pos
+                })
 
-        print(f"✅ Saved {len(selected_races)} races to {file_name}")
-    else:
-        print("⚠️ No Class 1, 2 or 3 races found.")
-
+# 7. Write results to CSV
+if selected_races:
+    with open("Horse_today_result.csv", "w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=["Meeting Name", "Class name", "Horse name", "Position"])
+        writer.writeheader()
+        writer.writerows(selected_races)
+    print("✅ Results saved to Horse_today_result.csv")
 else:
-    print("❌ Failed to fetch the page.")
-
-
-
-
+    print("❌ No races found that match the criteria.")
