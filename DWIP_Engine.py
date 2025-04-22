@@ -12,7 +12,7 @@ def load_data(file_name):
             df = pd.read_csv(file_name)
 
             # Validate expected column count
-            if len(df.columns) == 4:
+            if len(df.columns) == 4 or 6:
                 df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
                 return df
             else:
