@@ -12,7 +12,7 @@ def load_data(file_name):
 
         # Check the number of columns and assign appropriate column names
         if len(df.columns) == 6:
-            df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name', 'Position', 'Odds']
+            df.columns = ['Meeting', 'Race Class', 'Distance', 'no. & Horse Name ', 'Position', 'Odds']
         elif len(df.columns) == 4:
             df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
         else:
