@@ -26,7 +26,7 @@ def load_data(file_name):
         return pd.DataFrame()
 
 # ---- Load Main Data ----
-df = load_data("horse_races_today.csv")
+df = load_data("horse_today_result.csv")
 
 if df.empty:
     st.stop()  # Stop execution if data isn't available
