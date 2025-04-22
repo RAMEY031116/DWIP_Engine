@@ -10,25 +10,26 @@ def load_data(file_name):
     try:
         if os.path.exists(file_name):
             df = pd.read_csv(file_name)
-            # Validate column count
+
+            # Validate expected column count
             if len(df.columns) == 4:
                 df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
                 return df
             else:
                 st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
-                return pd.DataFrame()  # Return empty DataFrame if columns mismatch
+                return pd.DataFrame()  # Return empty DataFrame if format is incorrect
         else:
-            st.error(f"File not found: {file_name}. Check GitHub repository or Streamlit Cloud storage.")
+            st.error(f"File '{file_name}' not found. Ensure it exists in your GitHub repository and Streamlit Cloud environment.")
             return pd.DataFrame()
     except Exception as e:
-        st.error(f"Error loading {file_name}: {e}")
+        st.error(f"Error loading '{file_name}': {e}")
         return pd.DataFrame()
 
 # ---- Load Main Data ----
 df = load_data("horse_races_today.csv")
 
 if df.empty:
-    st.stop()  # Stop execution if data is invalid
+    st.stop()  # Stop execution if data isn't available
 
 # ---- Load Results Data ----
 st.header("📜 Horses Today Result Data")
