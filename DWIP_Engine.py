@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import os
 
 st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
@@ -8,19 +7,24 @@ st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 @st.cache_data
 def load_data(file_name):
     try:
-        if os.path.exists(file_name):
-            df = pd.read_csv(file_name)
+        # Try to load the CSV file
+        df = pd.read_csv(file_name)
 
-            # Validate expected column count
-            if len(df.columns) == 4 or 6:
-                df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
-                return df
-            else:
-                st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
-                return pd.DataFrame()  # Return empty DataFrame if format is incorrect
+        # Check the number of columns and assign appropriate column names
+        if len(df.columns) == 4:
+            df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
+        elif len(df.columns) == 6:
+            df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name', 'Position', 'Odds']
         else:
-            st.error(f"File '{file_name}' not found. Ensure it exists in your GitHub repository and Streamlit Cloud environment.")
+            st.error(f"Expected 4 or 6 columns, but the CSV has {len(df.columns)} columns.")
             return pd.DataFrame()
+
+        return df
+
+    except FileNotFoundError:
+        st.error(f"File '{file_name}' not found. Make sure it's in your GitHub repo and Streamlit Cloud folder.")
+        return pd.DataFrame()
+
     except Exception as e:
         st.error(f"Error loading '{file_name}': {e}")
         return pd.DataFrame()
@@ -29,7 +33,7 @@ def load_data(file_name):
 df = load_data("Horse_today_result.csv")
 
 if df.empty:
-    st.stop()  # Stop execution if data isn't available
+    st.stop()  # Stop app if no data found
 
 # ---- Load Results Data ----
 st.header("📜 Horses Today Result Data")
@@ -40,16 +44,16 @@ if df_results.empty:
 else:
     st.dataframe(df_results)
 
-# ---- Streamlit User Interface ----
+# ---- Streamlit Interface ----
 st.title("🐎 DWIP - Data for Winning Insights and Probability")
 st.write("This app gives you simple betting advice based on past horse performance.")
 
-# Filters
+# Dropdown filters
 race_time = st.selectbox("Choose a Race Time:", df["Race Time"].unique())
 meeting = st.selectbox("Choose a Meeting:", df["Meeting"].unique())
 horse = st.selectbox("Choose a Horse:", df["Horse Name"].unique())
 
-# Filtered Data
+# Filter and show selected data
 filtered_data = df[
     (df["Race Time"] == race_time) &
     (df["Meeting"] == meeting) &
