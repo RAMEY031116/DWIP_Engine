@@ -5,11 +5,6 @@ st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
 # Load the data from CSV file
 @st.cache_data
-
-# ---- Display Horses_today_result.csv Data ----
-st.write("Horses Today Result Data")
-df_results = pd.read_csv("Horse_today_result.csv")  # Load your results CSV file
-st.dataframe(df_results)  # Display all rows
 def load_data():
     # Load the CSV
     df = pd.read_csv("horse_races_today.csv")  # Change this if the filename is different
@@ -22,7 +17,6 @@ def load_data():
         st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
         return pd.DataFrame()  # Return an empty DataFrame if columns mismatch
     
-
     return df
 
 # Load the data into a DataFrame
@@ -31,6 +25,11 @@ df = load_data()
 # If the DataFrame is empty due to mismatch, stop further execution
 if df.empty:
     st.stop()
+
+# ---- Display Horses_today_result.csv Data ----
+st.header("📜 Horses Today Result Data")
+df_results = pd.read_csv("Horses_today_result.csv")  # Load your results CSV file
+st.dataframe(df_results)  # Display all rows
 
 # ---- Streamlit User Interface ----
 
@@ -58,7 +57,6 @@ st.dataframe(filtered_data[[
     "Race Date", "Race Time", "Meeting", "Horse Name"
 ]])
 
-
 st.header("Bet Calculator")
 
 stake = st.number_input("Enter your stake (£)", min_value=0.0,)
@@ -67,7 +65,7 @@ fractional_odds = st.text_input("Enter the odds in fractional 5/1 or 7/2", value
 def convert_fraction_to_decimal(fraction_str):
     try:
         numerator, denominator = fraction_str.split("/")
-        return round(1 +(int(numerator)/ int(denominator)), 2)
+        return round(1 + (int(numerator) / int(denominator)), 2)
     except:
         return None
     
@@ -83,4 +81,3 @@ if st.button("calculate"):
         st.subheader(f'decimal odds: {decimal_odds}')
         st.subheader(f"total return : {total_return}")
         st.subheader(f"profit is : {profit}")
-
