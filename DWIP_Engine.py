@@ -11,10 +11,10 @@ def load_data(file_name):
         df = pd.read_csv(file_name)
 
         # Check the number of columns and assign appropriate column names
-        if len(df.columns) == 4:
-            df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
-        elif len(df.columns) == 6:
+        if len(df.columns) == 6:
             df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name', 'Position', 'Odds']
+        elif len(df.columns) == 4:
+            df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
         else:
             st.error(f"Expected 4 or 6 columns, but the CSV has {len(df.columns)} columns.")
             return pd.DataFrame()
@@ -30,14 +30,14 @@ def load_data(file_name):
         return pd.DataFrame()
 
 # ---- Load Main Data ----
-df = load_data("Horse_today_result.csv")
+df = load_data("horse_races_today.csv")
 
 if df.empty:
     st.stop()  # Stop app if no data found
 
 # ---- Load Results Data ----
 st.header("📜 Horses Today Result Data")
-df_results = load_data("horse_races_today.csv")
+df_results = load_data("Horse_today_result.csv")
 
 if df_results.empty:
     st.warning("No race results found. Please check your data file.")
