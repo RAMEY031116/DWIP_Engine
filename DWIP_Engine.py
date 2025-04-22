@@ -1,83 +1,86 @@
 import streamlit as st
 import pandas as pd
+import os
 
 st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
-# Load the data from CSV file
+# ---- Load Data Function with Error Handling ----
 @st.cache_data
-def load_data():
-    # Load the CSV
-    df = pd.read_csv("horse_races_today.csv")  # Change this if the filename is different
-  
-    # Verify the columns are as expected
-    if len(df.columns) == 4:
-        # Set the column names as desired
-        df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
-    else:
-        st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
-        return pd.DataFrame()  # Return an empty DataFrame if columns mismatch
-    
-    return df
+def load_data(file_name):
+    try:
+        if os.path.exists(file_name):
+            df = pd.read_csv(file_name)
+            # Validate column count
+            if len(df.columns) == 4:
+                df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
+                return df
+            else:
+                st.error(f"Expected 4 columns, but the CSV has {len(df.columns)} columns.")
+                return pd.DataFrame()  # Return empty DataFrame if columns mismatch
+        else:
+            st.error(f"File not found: {file_name}. Check GitHub repository or Streamlit Cloud storage.")
+            return pd.DataFrame()
+    except Exception as e:
+        st.error(f"Error loading {file_name}: {e}")
+        return pd.DataFrame()
 
-# Load the data into a DataFrame
-df = load_data()
+# ---- Load Main Data ----
+df = load_data("horse_races_today.csv")
 
-# If the DataFrame is empty due to mismatch, stop further execution
 if df.empty:
-    st.stop()
+    st.stop()  # Stop execution if data is invalid
 
-# ---- Display Horses_today_result.csv Data ----
+# ---- Load Results Data ----
 st.header("📜 Horses Today Result Data")
-df_results = pd.read_csv("Horses_today_result.csv")  # Load your results CSV file
-st.dataframe(df_results)  # Display all rows
+df_results = load_data("Horses_today_result.csv")
+
+if df_results.empty:
+    st.warning("No race results found. Please check your data file.")
+else:
+    st.dataframe(df_results)
 
 # ---- Streamlit User Interface ----
-
-# App title
 st.title("🐎 DWIP - Data for Winning Insights and Probability")
+st.write("This app gives you simple betting advice based on past horse performance.")
 
-# Intro text
-st.write("This app gives you simple betting advice based on horse past performance.")
-
-# Filters for Race Time, Meeting, and Horse Name
+# Filters
 race_time = st.selectbox("Choose a Race Time:", df["Race Time"].unique())
 meeting = st.selectbox("Choose a Meeting:", df["Meeting"].unique())
 horse = st.selectbox("Choose a Horse:", df["Horse Name"].unique())
 
-# Filter the data based on selections
+# Filtered Data
 filtered_data = df[
     (df["Race Time"] == race_time) &
     (df["Meeting"] == meeting) &
     (df["Horse Name"] == horse)
 ]
 
-# Display the results
 st.subheader("🎯 Filtered Race Results")
-st.dataframe(filtered_data[[
-    "Race Date", "Race Time", "Meeting", "Horse Name"
-]])
+st.dataframe(filtered_data)
 
-st.header("Bet Calculator")
+# ---- Bet Calculator ----
+st.header("💰 Bet Calculator")
 
-stake = st.number_input("Enter your stake (£)", min_value=0.0,)
-fractional_odds = st.text_input("Enter the odds in fractional 5/1 or 7/2", value="0/0")
+stake = st.number_input("Enter your stake (£)", min_value=0.0)
+fractional_odds = st.text_input("Enter the odds in fractional format (e.g., 5/1, 7/2)", value="0/0")
 
+# Convert Fractional Odds to Decimal
 def convert_fraction_to_decimal(fraction_str):
     try:
-        numerator, denominator = fraction_str.split("/")
-        return round(1 + (int(numerator) / int(denominator)), 2)
+        numerator, denominator = map(int, fraction_str.split("/"))
+        return round(1 + (numerator / denominator), 2)
     except:
         return None
-    
-if st.button("calculate"):
+
+if st.button("Calculate"):
     decimal_odds = convert_fraction_to_decimal(fractional_odds)
 
     if decimal_odds is None:
-        st.error("Invalid fractional odds format. Please enter like 5/1 or 7/2")
+        st.error("Invalid fractional odds format. Please enter them like 5/1 or 7/2.")
     else:
         total_return = round(stake * decimal_odds, 2)
         profit = round(total_return - stake, 2)
 
-        st.subheader(f'decimal odds: {decimal_odds}')
-        st.subheader(f"total return : {total_return}")
-        st.subheader(f"profit is : {profit}")
+        st.subheader(f"📈 Decimal Odds: {decimal_odds}")
+        st.subheader(f"💷 Total Return: £{total_return}")
+        st.subheader(f"💵 Profit: £{profit}")
