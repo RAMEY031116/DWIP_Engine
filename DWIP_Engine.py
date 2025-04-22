@@ -8,7 +8,7 @@ st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
 # ---- Display Horses_today_result.csv Data ----
 st.header("📜 Horses Today Result Data")
-df_results = pd.read_csv("Horses_today_result.csv")  # Load your results CSV file
+df_results = pd.read_csv("Horse_today_result.csv")  # Load your results CSV file
 st.dataframe(df_results)  # Display all rows
 def load_data():
     # Load the CSV
