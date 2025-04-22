@@ -33,7 +33,7 @@ if df.empty:
 
 # ---- Load Results Data ----
 st.header("📜 Horses Today Result Data")
-df_results = load_data("Horses_today_result.csv")
+df_results = load_data("Horse_today_result.csv")
 
 if df_results.empty:
     st.warning("No race results found. Please check your data file.")
