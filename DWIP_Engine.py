@@ -11,7 +11,7 @@ def load_data(file_name):
         df = pd.read_csv(file_name)
 
         # Check the number of columns and assign appropriate column names
-        if len(df.columns) == 6:
+        if len(df.columns) == 7:
             df.columns = ['Meeting', 'Race Class', 'Distance', 'no. & Horse Name ', 'Position', 'Odds']
         elif len(df.columns) == 4:
             df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
