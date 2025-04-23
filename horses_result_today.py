@@ -3,8 +3,13 @@ import requests  # To send requests to the webpage
 from bs4 import BeautifulSoup  # To parse the HTML content
 import csv  # To save the data into a CSV file
 
+<<<<<<< HEAD
 # Step 1: Set the URL of the webpage from which we want to scrape data
 url = "https://www.racingpost.com/results/2025-04-21/time-order"
+=======
+# 1. Set the date and URL
+url = f"https://www.racingpost.com/results/2025-04-20/time-order/"
+>>>>>>> 65e958353923c4b1b4b0a9a788b436bcf9402a69
 
 # Step 2: Send a request to fetch the webpage content
 headers = {'User-Agent': 'Mozilla/5.0'}
@@ -17,6 +22,7 @@ if response.status_code == 200:
     # Step 4: Locate the race container
     race_container = soup.find("div", class_="rp-timeView__list")
 
+<<<<<<< HEAD
     # Step 5: Prepare list to store race details
     race_data_list = []
 
@@ -72,3 +78,14 @@ if response.status_code == 200:
 
 else:
     print(f"❌ Failed to retrieve webpage. Status code: {response.status_code}")
+=======
+    # 5. Filter for Class 5
+    for race in listItem_races:
+        try:
+            race_description = race.find("div", class_="rp-timeView__raceDescription").text
+            if "Class 5" in race_description:
+                print("✅ Found Class 5 Race")
+                print(race_description)
+        except AttributeError:
+            continue
+>>>>>>> 65e958353923c4b1b4b0a9a788b436bcf9402a69
