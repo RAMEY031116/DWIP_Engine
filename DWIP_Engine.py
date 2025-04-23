@@ -11,8 +11,8 @@ def load_data(file_name):
         df = pd.read_csv(file_name)
 
         # Check the number of columns and assign appropriate column names
-        if len(df.columns) == 6:
-            df.columns = ['Meeting', 'Race Class', 'Distance', 'no. & Horse Name ', 'Position', 'Odds']
+        if len(df.columns) == 7:
+            df.columns = ["Date", 'Meeting', 'Race Class', 'Distance', 'no. & Horse Name ', 'Position', 'Odds']
         elif len(df.columns) == 4:
             df.columns = ['Race Date', 'Race Time', 'Meeting', 'Horse Name']
         else:
@@ -37,7 +37,7 @@ if df.empty:
 
 # ---- Load Results Data ----
 st.header("📜 Horses Today Result ")
-df_results = load_data("Horse_today_result.csv")
+df_results = load_data("Horses_today_result.csv")
 
 if df_results.empty:
     st.warning("No race results found. Please check your data file.")
