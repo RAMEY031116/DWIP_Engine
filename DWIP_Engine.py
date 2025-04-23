@@ -36,7 +36,7 @@ if df.empty:
     st.stop()  # Stop app if no data found
 
 # ---- Load Results Data ----
-st.header("📜 Horses Today Result ")
+st.header("📜 Horses Result of last 20 days")
 df_results = load_data("Horses_today_result.csv")
 
 if df_results.empty:
