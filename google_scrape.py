@@ -32,7 +32,7 @@ try:
         
         # Iterate over each horse name
         for horse_name in horse_names:
-            query = f"{horse_name} horse results site:horseracing.net"  # Search query
+            query = f"{horse_name} horse results site:https://www.racingpost.com/"  # Search query
             
             try:
                 # Perform the Google search and get the results as a list
