@@ -82,7 +82,7 @@ import csv  # To save the data into a CSV file
 
 def todays_results():
     # Step 1: Set the date and URL
-    url = f"https://www.racingpost.com/fast-results/"
+    url = f"https://www.racingpost.com/results/time-order/"
 
     # Step 2: Send a request to fetch the webpage content
     headers = {'User-Agent': 'Mozilla/5.0'}
@@ -137,7 +137,7 @@ def todays_results():
 
         # Step 6: Save to CSV if race data was found
         if race_data_list:
-            with open("Horse_today_result.csv", "w", newline="", encoding="utf-8") as file:
+            with open("Horses_today_result.csv", "w", newline="", encoding="utf-8") as file:
                 fieldnames = ["Meeting Name", "Class", "Distance", "Horse Name", "Position", "Odds"]
                 writer = csv.DictWriter(file, fieldnames=fieldnames)
 
