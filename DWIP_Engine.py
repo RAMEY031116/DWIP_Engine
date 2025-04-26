@@ -97,6 +97,8 @@ import pandas as pd
 import datetime
 from horses_result_today import todays_results
 
+st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
+
 UPDATE_HOURS = [(22, 15, 21), (55)]  # 9AM, 3PM, 9PM
 
 # 👇 Function to update all data
@@ -115,7 +117,6 @@ if current_hour in UPDATE_HOURS:
 else:
     st.success("Using existing data (no update needed now).")
 
-st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
 # ---- Load Data Function with Error Handling ----
 @st.cache_data
