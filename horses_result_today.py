@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup  # To parse the HTML content
 import csv  # To save the data into a CSV file
 
 # Step 1: Set the date and URL
-url = f"https://www.racingpost.com/results/2025-04-20/time-order/"
+url = f"https://www.racingpost.com/fast-results/"
 
 # Step 2: Send a request to fetch the webpage content
 headers = {'User-Agent': 'Mozilla/5.0'}
