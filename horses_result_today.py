@@ -152,3 +152,4 @@ def todays_results():
         print(f"❌ Failed to retrieve webpage. Status code: {response.status_code}")
 
 todays_results()
+
