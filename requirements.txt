@@ -1,0 +1,7 @@
+beautifulsoup4
+requests
+streamlit
+pandas
+googlesearch-python
+csv
+
