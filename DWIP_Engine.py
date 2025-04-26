@@ -97,7 +97,7 @@ import pandas as pd
 import datetime
 from horses_result_today import todays_results
 
-UPDATE_HOURS = [(22, 15, 21), (21)]  # 9AM, 3PM, 9PM
+UPDATE_HOURS = [(22, 15, 21), (30)]  # 9AM, 3PM, 9PM
 
 # 👇 Function to update all data
 def update_all_data():
