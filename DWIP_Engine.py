@@ -99,7 +99,7 @@ from horses_result_today import todays_results
 
 st.set_page_config(page_title="DWIP", page_icon="app_icon.jpg", layout="wide")
 
-UPDATE_HOURS = [(23, 15, 21), (50)]  # 9AM, 3PM, 9PM
+UPDATE_HOURS = [(23, 15, 21), (57)]  # 9AM, 3PM, 9PM
 
 # 👇 Function to update all data
 def update_all_data():
