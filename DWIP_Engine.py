@@ -131,7 +131,7 @@ def load_data(file_name):
     try:
         df = pd.read_csv(file_name)
 
-        if len(df.columns) == 7:
+        if len(df.columns) == 6:
             df.columns = ["Date", "Meeting", "Race Class", "Distance", "no. & Horse Name", "Position", "Odds"]
         elif len(df.columns) == 4:
             df.columns = ["Race Date", "Race Time", "Meeting", "Horse Name"]
