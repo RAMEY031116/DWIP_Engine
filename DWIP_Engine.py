@@ -92,7 +92,7 @@
 
 
 
-i# 🐎 DWIP Streamlit App
+# 🐎 DWIP Streamlit App
 import streamlit as st
 import pandas as pd
 import datetime
