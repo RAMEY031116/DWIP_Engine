@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import time
+import random
 from datetime import datetime, timedelta
 
 # File name to store the race results
@@ -18,11 +20,15 @@ try:
 except FileNotFoundError:
     pass  # File doesn't exist yet, will be created later
 
-# Loop through the last 20 days
-for days_ago in range(20):
+# Loop through the last 2,000 days with delay
+for days_ago in range(100):
     date_str = (datetime.today() - timedelta(days=days_ago)).strftime("%Y-%m-%d")
     url = f"https://www.racingpost.com/results/{date_str}/time-order"
 
+    # Introduce a randomized delay to prevent overload (between 1.5s and 3s)
+    time.sleep(random.uniform(1.5, 3))
+
+    # Fetch the webpage
     response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
 
     if response.status_code == 200:
@@ -40,7 +46,7 @@ for days_ago in range(20):
 
                 if meeting_name and race_description and horses:
                     description_text = race_description.get_text(strip=True)
-                    distance = description_text.split(",")[0]  # First part contains distance
+                    distance = description_text.split(",")[0]  # Extract distance
                     class_type = next((cls for cls in ["Class 1", "Class 2", "Class 3"] if cls in description_text), None)
 
                     if class_type:
@@ -83,4 +89,4 @@ for days_ago in range(20):
     else:
         print(f"❌ Couldn't get data for {date_str}. Status code: {response.status_code}")
 
-print("✅ Done fetching race results for the past 20 days!")
+print("✅ Done fetching race results for the past 2,000 days!")
